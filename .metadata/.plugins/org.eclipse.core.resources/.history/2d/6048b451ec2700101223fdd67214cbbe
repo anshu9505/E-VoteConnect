@@ -1,0 +1,12 @@
+package in.scalive.votezy.service;
+
+import in.scalive.votezy.repostiory.CandidateRepository;
+import in.scalive.votezy.repostiory.VoteRepository;
+import in.scalive.votezy.repostiory.VoterRepository;
+
+public class VotingService {
+private VoteRepository voteRepo;
+private CandidateRepository candidRepo;//this is for updating the count of vote of candidate
+private VoterRepository voterRepo;//this is for hasVoted column ko true krne ke liye
+
+}

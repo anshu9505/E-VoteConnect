@@ -1,0 +1,25 @@
+package in.scalive.votezy.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import lombok.Data;
+
+@Data
+@Entity
+public class Vote {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+private Long id;
+
+	@OneToOne
+	@JoinColumn(name="voter_id",unique=true)// unique:-ek voter ki id vote table mein ek hi baar aaye
+private Voter voter;
+	@ManyToOne
+	@JoinColumn(name="candidate_id")//candidate id can repeat in vote table so no unique
+private Candidate candidate;
+}

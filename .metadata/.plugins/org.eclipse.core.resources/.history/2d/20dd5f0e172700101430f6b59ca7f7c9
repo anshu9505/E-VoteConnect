@@ -1,0 +1,5 @@
+package in.voting.entity;
+
+public class Candidate {
+
+}

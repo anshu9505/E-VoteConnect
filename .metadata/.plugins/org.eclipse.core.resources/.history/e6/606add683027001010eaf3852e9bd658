@@ -1,0 +1,5 @@
+package in.scalive.votezy.exception;
+
+public class ErrorResponse {
+
+}

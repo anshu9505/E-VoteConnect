@@ -1,0 +1,61 @@
+package in.scalive.votezy.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import in.scalive.votezy.entity.Candidate;
+import in.scalive.votezy.entity.Vote;
+import in.scalive.votezy.entity.Voter;
+import in.scalive.votezy.exception.ResourceNotFoundException;
+import in.scalive.votezy.exception.VoteNotAllowedException;
+import in.scalive.votezy.repostiory.CandidateRepository;
+import in.scalive.votezy.repostiory.VoteRepository;
+import in.scalive.votezy.repostiory.VoterRepository;
+import jakarta.transaction.Transactional;
+
+public class VotingService {
+private VoteRepository voteRepo;
+private CandidateRepository candidRepo;//this is for updating the count of vote of candidate
+private VoterRepository voterRepo;//this is for hasVoted column ko true krne ke liye
+
+@Autowired
+public VotingService(VoteRepository voteRepo, CandidateRepository candidRepo, VoterRepository voterRepo) {
+	super();
+	this.voteRepo = voteRepo;
+	this.candidRepo = candidRepo;
+	this.voterRepo = voterRepo;
+}
+@Transactional
+public Vote castVote(Long voterId,Long candidateId)
+{
+	if(!voterRepo.existsById(voterId))
+	{
+		throw new ResourceNotFoundException("Voter not found with Id:"+voterId);
+	}
+	if(!candidRepo.existsById(candidateId))
+	{
+		throw new ResourceNotFoundException("Candidate not found with Id:"+candidateId);
+	}
+	Voter voter=voterRepo.findById(voterId).get();
+	if(voter.isHasVoted())
+	{
+		throw new VoteNotAllowedException("Voter id:"+voterId+" has already casted his vote.");		
+	}
+	Candidate candidate=candidRepo.findById(candidateId).get();
+	Vote vote=new Vote();
+	vote.setVoter(voter);
+	vote.setCandidate(candidate);
+//	voteRepo.save(vote);
+    candidate.setVoteCount(candidate.getVoteCount()+1);
+    candidRepo.save(candidate);
+    voter.setVote(vote);
+    voter.setHasVoted(true);
+    voterRepo.save(voter);
+    return vote;
+}
+public List<Vote> getAllVotes()
+{
+	return voteRepo.findAll();
+}
+}

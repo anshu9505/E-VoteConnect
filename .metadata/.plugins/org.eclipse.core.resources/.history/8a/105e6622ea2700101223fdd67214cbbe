@@ -1,0 +1,10 @@
+package in.scalive.votezy.service;
+
+import in.scalive.votezy.repostiory.CandidateRepository;
+import in.scalive.votezy.repostiory.VoteRepository;
+
+public class VotingService {
+private VoteRepository voteRepo;
+private CandidateRepository candidRepo;
+private VoterRepository voterRepo;
+}

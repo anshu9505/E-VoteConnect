@@ -1,0 +1,5 @@
+package in.scalive.votezy.repostiory;
+
+public interface VoterRespostiory {
+
+}
